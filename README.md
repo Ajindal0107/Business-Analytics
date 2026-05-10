@@ -1,1 +1,169 @@
 # Business-Analytics
+# Q1
+advertising <- c(5, 10, 15, 20, 25)
+sales <- c(60, 85, 110, 140, 175)
+df1 <- data.frame(advertising, sales)
+# Dependent variable = sales, Independent variable = advertising
+plot(df1$advertising, df1$sales, main="Q1", xlab="Advertising", ylab="Sales")
+# Upward trend shows positive relationship
+m1 <- lm(sales ~ advertising, data=df1)
+summary(m1)
+# Equation: sales = intercept + slope*advertising
+# Slope means increase in sales for 1 unit increase in advertising
+# High R-squared means strong model, small p-value means significant
+predict(m1, data.frame(advertising=30))
+residuals(m1)
+# Residual = actual - predicted
+
+# Q2
+price <- c(10, 20, 30, 40, 50)
+demand <- c(200, 170, 140, 110, 90)
+df2 <- data.frame(price, demand)
+# DV = demand, IV = price
+plot(df2$price, df2$demand, main="Q2")
+# Downward trend shows negative relationship
+m2 <- lm(demand ~ price, data=df2)
+summary(m2)
+# Negative slope means higher price reduces demand
+predict(m2, data.frame(price=35))
+
+# Q3
+study_hours <- c(2,4,6,8,10)
+marks <- c(40,55,70,85,100)
+df3 <- data.frame(study_hours, marks)
+plot(df3$study_hours, df3$marks, main="Q3")
+m3 <- lm(marks ~ study_hours, data=df3)
+summary(m3)
+# Positive slope means more study increases marks
+predict(m3, data.frame(study_hours=7))
+residuals(m3)
+
+# Q4
+training <- c(3,6,9,12,15)
+performance <- c(35,60,85,110,140)
+df4 <- data.frame(training, performance)
+plot(df4$training, df4$performance, main="Q4")
+m4 <- lm(performance ~ training, data=df4)
+summary(m4)
+# Coefficients show impact of training on performance
+predict(m4, data.frame(training=10))
+
+# Q5
+investment <- c(20,40,60,80,100)
+profit <- c(180,260,360,480,620)
+df5 <- data.frame(investment, profit)
+plot(df5$investment, df5$profit, main="Q5")
+m5 <- lm(profit ~ investment, data=df5)
+summary(m5)
+# Strong positive relationship between investment and profit
+predict(m5, data.frame(investment=70))
+
+# Q6
+temperature <- c(20,25,30,35,40)
+icecream_sales <- c(90,130,180,240,310)
+df6 <- data.frame(temperature, icecream_sales)
+plot(df6$temperature, df6$icecream_sales, main="Q6")
+m6 <- lm(icecream_sales ~ temperature, data=df6)
+summary(m6)
+confint(m6)
+# Confidence interval shows range where true coefficient lies with 95% confidence
+# If interval does not include 0 → relationship is significant
+predict(m6, data.frame(temperature=32))
+residuals(m6)
+
+# Q7
+experience <- c(1,3,5,7,9)
+salary <- c(20,35,55,80,110)
+df7 <- data.frame(experience, salary)
+plot(df7$experience, df7$salary, main="Q7")
+m7 <- lm(salary ~ experience, data=df7)
+summary(m7)
+confint(m7)
+# CI interpretation: gives lower and upper bound of slope
+# Narrow CI means more precise estimate
+predict(m7, data.frame(experience=6))
+
+# Q8
+promotion <- c(5,10,15,20,25)
+revenue <- c(70,100,140,190,250)
+df8 <- data.frame(promotion, revenue)
+plot(df8$promotion, df8$revenue, main="Q8")
+m8 <- lm(revenue ~ promotion, data=df8)
+summary(m8)
+confint(m8)
+# CI helps check reliability of coefficient estimate
+predict(m8, data.frame(promotion=18))
+residuals(m8)
+
+# Q9
+promotion <- c(6,12,18,24,30)
+advertising <- c(10,15,25,35,45)
+revenue <- c(70,110,160,220,300)
+df9 <- data.frame(promotion, advertising, revenue)
+# DV = revenue, IVs = promotion and advertising
+m9 <- lm(revenue ~ promotion + advertising, data=df9)
+summary(m9)
+# Each coefficient shows effect while holding other variable constant
+predict(m9, data.frame(promotion=20, advertising=30))
+residuals(m9)
+
+# Q10
+price <- c(10,20,30,40,50)
+discount <- c(5,8,12,15,18)
+sales <- c(220,200,170,140,110)
+df10 <- data.frame(price, discount, sales)
+m10 <- lm(sales ~ price + discount, data=df10)
+summary(m10)
+# Price usually negative, discount positive in business context
+predict(m10, data.frame(price=35, discount=10))
+
+# Q11
+training_hours <- c(5,10,15,20,25)
+experience <- c(2,4,6,8,10)
+performance <- c(50,70,95,120,150)
+df11 <- data.frame(training_hours, experience, performance)
+m11 <- lm(performance ~ training_hours + experience, data=df11)
+summary(m11)
+# Larger coefficient indicates stronger impact
+predict(m11, data.frame(training_hours=18, experience=7))
+
+# Q12
+study_time <- c(2,4,6,8,10)
+attendance <- c(60,70,80,90,95)
+marks <- c(40,55,70,85,95)
+df12 <- data.frame(study_time, attendance, marks)
+m12 <- lm(marks ~ study_time + attendance, data=df12)
+summary(m12)
+# Holding study_time constant means isolating attendance effect
+predict(m12, data.frame(study_time=7, attendance=85))
+
+# Q13
+investment <- c(20,40,60,80,100)
+marketing_spend <- c(10,20,30,40,50)
+profit <- c(200,300,420,550,700)
+df13 <- data.frame(investment, marketing_spend, profit)
+m13 <- lm(profit ~ investment + marketing_spend, data=df13)
+summary(m13)
+# Compare coefficients to judge importance
+predict(m13, data.frame(investment=70, marketing_spend=35))
+
+# Q14
+icecream_sales <- c(50,80,110,140,170)
+temperature <- c(25,28,32,35,38)
+drowning_cases <- c(2,4,6,8,10)
+df14 <- data.frame(icecream_sales, temperature, drowning_cases)
+m14a <- lm(drowning_cases ~ icecream_sales, data=df14)
+m14b <- lm(drowning_cases ~ icecream_sales + temperature, data=df14)
+summary(m14a)
+summary(m14b)
+# Relationship may be spurious because temperature influences both variables
+
+# Q15
+advertising_tv <- c(20,40,60,80,100)
+advertising_online <- c(15,35,55,75,95)
+sales <- c(150,230,310,400,500)
+df15 <- data.frame(advertising_tv, advertising_online, sales)
+m15 <- lm(sales ~ advertising_tv + advertising_online, data=df15)
+summary(m15)
+# Multicollinearity occurs when IVs are highly correlated
+predict(m15, data.frame(advertising_tv=70, advertising_online=65))
