@@ -1,0 +1,99 @@
+R
+
+# TEXT ANALYSIS IN R 
+
+  
+  ## PART 1: STEP-BY-STEP EXPLANATION (BASED ON SAMPLE QUESTION)
+  
+  # Question Context
+  
+  You are analyzing feedback data using basic text processing in R.
+
+The data frame contains:
+  
+  * id: Unique ID for each feedback
+* text: Text of the feedback
+
+---
+  
+  ## Step 1: Install and Load Required Packages
+  
+  
+install.packages("tidytext")
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("wordcloud")
+install.packages("wordcloud2")
+
+
+library(tidytext)
+library(dplyr)
+library(ggplot2)
+library(wordcloud)
+library(wordcloud2)
+
+
+  
+  ## Step 2: Create Data Frame
+  
+feedback_data <- data.frame( id = c(1:5), text = c(
+    "Service quality exceeded expectations."
+    "Teamwork improves productivity.",
+    "Recognition motivates employees.",
+    "Culture influences satisfaction.",
+    "Leadership builds confidence.",
+    "Training enhances skills.",
+    "Balanced work improves performance."
+
+  )
+)
+
+feedback_data
+  ## Step 3: Tokenization (Split into Words)
+  
+
+tokens <- feedback_data %>% unnest_tokens(word, text)
+
+tokens
+
+  ## Step 4: Remove Stop Words
+  
+ #“Load the stop_words dataset so I can use it.
+
+data("stop_words")
+stop_words
+#This is a dataset of stop words (from tidytext::stop_words).
+#lexicon-This tells you which stop word list the word comes from.There are 3 lexicons..our is from SMART lexicon..teh standard list for stop words
+
+clean_tokens <- tokens %>%  anti_join(stop_words, by = "word")
+clean_tokens
+
+#by="word" - Match rows in both datasets using the column named word
+
+
+    ## Step 5: Word Count
+  
+  
+word_counts <- clean_tokens %>%   count(word, sort = TRUE)
+
+word_counts
+  
+  ## Step 6: Visualization using ggplot
+  
+  
+ggplot(word_counts, aes(x = reorder(word, n), y = n)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Word Frequency", x = "Words", y = "Count")
+
+#reorder(word, n). This sorts words based on frequency
+  
+  ## Step 7: Word Cloud
+  
+wordcloud(words = word_counts$word,
+          freq = word_counts$n,
+          min.freq = 1,
+          max.words = 100)
+
+  
+wordcloud2 (data= word_counts)
